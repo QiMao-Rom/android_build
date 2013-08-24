@@ -6150,6 +6150,14 @@ $(call declare-container-license-deps,$(INTERNAL_OTA_PACKAGE_TARGET),$(BUILT_TAR
 .PHONY: otapackage
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 
+QIMAO_TARGET_PACKAGE := $(PRODUCT_OUT)/$(QIMAO_VERSION).zip
+
+.PHONY: qimao
+qimao: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(QIMAO_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(QIMAO_TARGET_PACKAGE) > $(QIMAO_TARGET_PACKAGE).md5sum
+	@echo "**Package complete"**: $(QIMAO_TARGET_PACKAGE)"
+
 ifeq ($(BOARD_BUILD_RETROFIT_DYNAMIC_PARTITIONS_OTA_PACKAGE),true)
 name := $(product_name)-ota-retrofit-$(FILE_NAME_TAG)
 
